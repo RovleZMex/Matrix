@@ -55,28 +55,19 @@ public class Matrix {
 
     public Matrix solveGauss() {
         Matrix result = new Matrix(this);
-        if (result.matrix[0].length < 2) {
-            throw new RuntimeException("Matrix too small");
-        }
         double coeficiente;
-        int pivotRow = 0;
-        int pivotColumn = 0;
-
-        while(pivotRow < result.matrix.length-1){
-
-            for (int k = 1; pivotRow + k < result.getRows(); k++) {
-
-                coeficiente = result.getValue(pivotRow + k, pivotColumn) / result.getValue(pivotRow, pivotColumn);
-
-                for (int i = 0; i < result.getColumns(); i++) {
-                    result.matrix[k+pivotRow][i] = result.matrix[k+pivotRow][i] - (coeficiente * result.matrix[pivotRow][i]);
+        for(int i = 0; i < result.getRows() - 1; i++){
+            if(result.matrix[i][i] != 0){
+                for(int j = i + 1; j < result.getRows();j++){
+                    coeficiente = result.matrix[j][i] / result.matrix[i][i];
+                    for(int k = 0; k < result.getColumns(); k++){
+                        result.matrix[j][k] = result.matrix[j][k] - (coeficiente * result.matrix[i][k]);
+                    }
                 }
-
+            }else{
+                //buscar el primer elemento en la columna i, debajo de a_ii intercambiar los renglones involucrados
             }
-            pivotRow++;
-            pivotColumn++;
         }
-
         return result;
     }
 
